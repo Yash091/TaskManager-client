@@ -1,0 +1,32 @@
+/* styles.css (or your preferred naming convention) */
+
+nav {
+    background-color: #213854; /* Set background color for the navbar */
+    padding: 10px; /* Add padding for better aesthetics */
+
+  }
+  
+  ul {
+    font-size: 1.2rem;
+    list-style: none;
+    display: flex;
+    justify-content: space-around; /* Adjust spacing between navbar items */
+  }
+  
+  li {
+    margin: 0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: white; /* Set color for the navbar links */
+    font-weight: bold; /* Optional: Set font weight for a bold look */
+  }
+  
+  a:hover {
+    color: lightgray; /* Set color for the navbar links on hover */
+  }
+
+  .heading{
+    font-size: 2rem;
+  }
