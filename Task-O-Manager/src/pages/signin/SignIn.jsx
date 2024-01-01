@@ -29,10 +29,12 @@ const SignIn = ({sign_in}) => {
         
 
         const data = await login(user);
+
         if(data?.status == 200)
             sign_in(data.data)
         else {
             handleShowAlert(data.data)
+            return;
         }
 
     }

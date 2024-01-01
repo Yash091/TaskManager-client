@@ -2,17 +2,29 @@
 
 nav {
     background-color: #213854; /* Set background color for the navbar */
-    padding: 10px; /* Add padding for better aesthetics */
-
+    padding: 0;
+    margin: 0;
   }
   
   ul {
     font-size: 1.2rem;
     list-style: none;
     display: flex;
-    justify-content: space-around; /* Adjust spacing between navbar items */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 2rem;
+    margin: 0;
   }
-  
+  .auth-link{
+    width: 10rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
   li {
     margin: 0;
   }
