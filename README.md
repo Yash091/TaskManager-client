@@ -19,4 +19,9 @@ This is a Task Management Application implemented in ReactJS. The application al
 
 - ReactJS
 - Material UI
+- Vite
 
+## Setup Instructions
+1. Clone the Repo
+2. Use "npm install" to install the dependencies
+3. Use command "npm run dev" to run the application
