@@ -3,6 +3,7 @@ import React,{useState}from 'react'
 import "./SignIn.css"
 import { login } from '../../service/api';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../components/alert/Alert';
 const SignIn = ({sign_in}) => {
     const initial = {
         username:"",
@@ -10,15 +11,29 @@ const SignIn = ({sign_in}) => {
     }
     const [user,setUser] = useState(initial);
     const navigate = useNavigate();
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+    const handleShowAlert = (message) => {
+        setAlertMessage(message)
+        setShowAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
     const signin = async(e) => {
         e.preventDefault();
         if(user.username === "" || user.password === "")
-            alert("Enter the fields correctly!")
+            handleShowAlert("Enter the fields correctly!")
         
 
         const data = await login(user);
-        if(data.status == 200)
+        if(data?.status == 200)
             sign_in(data.data)
+        else {
+            handleShowAlert(data.data)
+        }
 
     }
 
@@ -30,6 +45,12 @@ const SignIn = ({sign_in}) => {
   return (
     <>
     <div className='signin-page'>
+    {showAlert && (
+        <Alert
+          message={alertMessage}
+          onClose={handleCloseAlert}
+        />
+      )}
         <div className='signin-container'>
             <div className='signin-head'> <h1>Sign In</h1></div>
             <div className='signin-username inp'>

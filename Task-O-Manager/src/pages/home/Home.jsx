@@ -9,10 +9,9 @@ const Home = ({userState}) => {
       const [userData,setUserData] = userState
       useEffect(()=>{
           const getTasks = async(id,jwtToken) => {
-              console.log(id,jwtToken);
               const data = await getAllTasks(id,jwtToken);
-              console.log(data.data)
-              setTasks(data.data)
+              if(data?.status==200)
+                setTasks(data.data)
           }
           getTasks(userData?.id,userData?.jwtToken);
       },[userData])

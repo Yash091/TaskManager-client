@@ -36,8 +36,12 @@ const SignUp = () => {
             return;
         }
         const data = await register(user);
-        if(data.status == 201)
+        if(data?.status == 201)
             navigate("/signin")
+        else {
+            handleShowAlert(data.data)
+            return;
+        }
 
     }
 

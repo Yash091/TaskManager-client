@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import './TaskForm.css'; // Import your CSS file for styling
 import { addTask } from '../../service/api';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../../components/alert/Alert';
 
 const TaskForm = ({userState}) => {
   const [newTask, setNewTask] = useState({ title: '', description: ''});
@@ -14,19 +15,39 @@ const TaskForm = ({userState}) => {
     setNewTask({ ...newTask, [name]: value });
   };
 
+  const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+    const handleShowAlert = (message) => {
+        setAlertMessage(message)
+        setShowAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (newTask.title.trim() !== '') {
       const data = await addTask(newTask,userData?.jwtToken)
-      if(data.status == 201) {
+      if(data?.status == 201) {
         navigate("/")
+      } else{
+        handleShowAlert(data.data + " Try Logging In again");
       }
-
     }
   };
 
   return (
-    <div className='form-body'>
+    <>
+    {showAlert && (
+        <Alert
+          message={alertMessage}
+          onClose={handleCloseAlert}
+        />
+      )}
+      <div className='form-body'>
         <div className="task-form">
       <h2>Create Task</h2>
       <form onSubmit={(e)=>handleSubmit(e)}>
@@ -51,6 +72,7 @@ const TaskForm = ({userState}) => {
       </form>
     </div>
     </div>
+    </>
   );
 };
 

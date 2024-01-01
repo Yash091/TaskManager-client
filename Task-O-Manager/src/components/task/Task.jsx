@@ -5,11 +5,24 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Link } from 'react-router-dom';
 import { deleteTask, updateTask } from '../../service/api';
+import Alert from '../alert/Alert';
 const Task = (props) => {
 
   const [showModal, setShowModal] = useState(false);
   const [showSModal, setShowSModal] = useState(false);
   
+  const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+
+    const handleShowAlert = (message) => {
+        setAlertMessage(message)
+        setShowAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+
   const showConfirmationModal = () => {
     setShowModal(true);
   };
@@ -20,9 +33,14 @@ const Task = (props) => {
 
   const deleteItem = async(id) => {
     const data = await deleteTask(id,props.jwtToken);
-    props.deleteTask(id);
-    alert(`Task: ${id} deleted!`);
-    setShowModal(false);
+    if(data.status == 200) {
+      props.deleteTask(id);
+      setShowModal(false);
+    } else {
+        handleShowAlert(data.data);
+        return;
+    }
+    
   };
 
   const closeModal = () => {
@@ -40,13 +58,25 @@ const Task = (props) => {
       status: newStatus
     }
     const data = await updateTask(task,props.jwtToken,id)
-    props.moveTask(id,newStatus);
-    alert(`Task: ${id} status changed!`)
-    setShowSModal(false);
+    if(data?.status == 200) {
+      props.moveTask(id,newStatus);
+      handleShowAlert(`Task: ${id} status changed!`)
+      setShowSModal(false);
+    } else {
+      handleShowAlert(data.data);
+      return;
+    }
+    
   }
 
-  return (
-    <div className={`task-card ${props.status}`}>
+  return (<>
+        {showAlert && (
+        <Alert
+          message={alertMessage}
+          onClose={handleCloseAlert}
+        />
+      )}
+      <div className={`task-card ${props.status}`}>
       <div className='icons'>
       {showModal && (
         <div className="modal-overlay">
@@ -95,6 +125,8 @@ const Task = (props) => {
         <div className='description'> {props.description}</div>
         </div>
     </div>
+  </>
+    
   )
 }
 
